@@ -8,4 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#808080</color>
+
+    <color name="cp_black">#2C2B2B</color>
+    <color name="cp_green">#8FB9A8</color>
+    <color name="cp_yellow">#FEFAD4</color>
+    <color name="cp_four_season">#FCD0BA</color>
+    <color name="cp_pink">#F1828D</color>
+    <color name="cp_brown">#765D69</color>
 </resources>

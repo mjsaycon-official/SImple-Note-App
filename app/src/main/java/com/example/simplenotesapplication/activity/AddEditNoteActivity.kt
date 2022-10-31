@@ -10,17 +10,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.simplenotesapplication.R
 import com.example.simplenotesapplication.entity.Note
 import com.example.simplenotesapplication.viewModel.NoteViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class AddEditNoteActivity : AppCompatActivity() {
 
     lateinit var etTitle: EditText
     lateinit var etDesc: EditText
-    lateinit var btnSave: Button
+    lateinit var btnSave: FloatingActionButton
     lateinit var noteViewModel: NoteViewModel
 
     var noteID = -1
@@ -30,22 +28,18 @@ class AddEditNoteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_edit_note)
         etTitle = findViewById(R.id.idETTitle)
         etDesc = findViewById(R.id.idETDesc)
-        btnSave = findViewById(R.id.idBtnSave)
+        btnSave = findViewById(R.id.idFABSave)
 
         noteViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(NoteViewModel::class.java)
 
         val noteType = intent.getStringExtra("noteType")
 
         if(noteType.equals("Edit")) {
-            val noteTitle = intent.getStringExtra("note")
+            val noteTitle = intent.getStringExtra("noteTitle")
             val noteDescription = intent.getStringExtra("noteDescription")
-            val noteTimestamp = intent.getStringExtra("noteTimestamp")
             noteID = intent.getIntExtra("noteID", -1)
             etTitle.setText(noteTitle)
             etDesc.setText(noteDescription)
-        } else {
-
-
         }
 
         btnSave.setOnClickListener {
