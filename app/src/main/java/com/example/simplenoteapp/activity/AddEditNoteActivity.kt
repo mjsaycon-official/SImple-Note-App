@@ -44,7 +44,7 @@ class AddEditNoteActivity : AppCompatActivity() {
 
         btnSave.setOnClickListener {
             val currentTimeStamp: String = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(Date())
-            val note = Note(etTitle.text.toString(), etDesc.text.toString(), currentTimeStamp)
+            val note = Note(etTitle.text.toString(), etDesc.text.toString(), currentTimeStamp, "")
             noteViewModel.addNote(note)
             finish()
         }
