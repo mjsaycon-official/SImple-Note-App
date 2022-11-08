@@ -1,6 +1,6 @@
-package com.example.simplenotesapplication.adapter
+package com.example.simplenoteapp.adapter
 
-import com.example.simplenotesapplication.entity.Note
+import com.example.simplenoteapp.entity.Note
 
 class NoteColorAdapter {
 

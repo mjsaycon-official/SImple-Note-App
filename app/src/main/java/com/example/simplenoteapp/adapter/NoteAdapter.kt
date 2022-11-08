@@ -1,4 +1,4 @@
-package com.example.simplenotesapplication.adapter
+package com.example.simplenoteapp.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.simplenotesapplication.R
-import com.example.simplenotesapplication.entity.Note
+import com.example.simplenoteapp.R
+import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.fragment.DashboardFragment
 
 class NoteAdapter(
-    val context: Context,
+    val context: DashboardFragment,
     val noteDeleteInterface: NoteDeleteInterface,
     val noteOpenInterface: NoteOpenInterface) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 

@@ -1,10 +1,10 @@
-package com.example.simplenotesapplication.activity
+package com.example.simplenoteapp.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import com.example.simplenotesapplication.R
+import com.example.simplenoteapp.R
 
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

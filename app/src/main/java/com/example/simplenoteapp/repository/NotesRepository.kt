@@ -1,8 +1,8 @@
-package com.example.simplenotesapplication.repository
+package com.example.simplenoteapp.repository
 
 import androidx.lifecycle.LiveData
-import com.example.simplenotesapplication.entity.Note
-import com.example.simplenotesapplication.interfaces.NotesDao
+import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.interfaces.NotesDao
 
 class NotesRepository(private val notesDao: NotesDao) {
     val allNotes: LiveData<List<Note>> = notesDao.getAllNotes()

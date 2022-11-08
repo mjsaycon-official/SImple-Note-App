@@ -1,15 +1,16 @@
-package com.example.simplenotesapplication.activity
+package com.example.simplenoteapp.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import com.example.simplenotesapplication.R
-import com.example.simplenotesapplication.entity.Note
-import com.example.simplenotesapplication.viewModel.NoteViewModel
+import com.example.simplenoteapp.R
+import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.fragment.ReturnDashboardInterface
+import com.example.simplenoteapp.viewModel.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,10 +44,16 @@ class AddEditNoteActivity : AppCompatActivity() {
         }
 
         btnSave.setOnClickListener {
-            val currentTimeStamp: String = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(Date())
-            val note = Note(etTitle.text.toString(), etDesc.text.toString(), currentTimeStamp, "")
-            noteViewModel.addNote(note)
-            finish()
+            val title = etTitle.text.toString()
+            val description = etTitle.text.toString()
+            if (title.isEmpty() && description.isEmpty()) {
+                Toast.makeText(this, "Title and description is required!", Toast.LENGTH_SHORT).show()
+            } else {
+                val currentTimeStamp: String = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(Date())
+                val note = Note(etTitle.text.toString(), etDesc.text.toString(), currentTimeStamp, "")
+                noteViewModel.addNote(note)
+                finish()
+            }
         }
 
         etTitle.addTextChangedListener(object : TextWatcher {

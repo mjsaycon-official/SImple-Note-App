@@ -1,12 +1,12 @@
-package com.example.simplenotesapplication.viewModel
+package com.example.simplenoteapp.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.simplenotesapplication.data.NoteDatabase
-import com.example.simplenotesapplication.entity.Note
-import com.example.simplenotesapplication.repository.NotesRepository
+import com.example.simplenoteapp.data.NoteDatabase
+import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.repository.NotesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
