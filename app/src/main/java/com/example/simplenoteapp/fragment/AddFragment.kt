@@ -3,6 +3,7 @@ package com.example.simplenoteapp.fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.simplenoteapp.R
-import com.example.simplenoteapp.activity.MainActivity
+import com.example.simplenoteapp.adapter.NoteOpenInterface
 import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.helpers.SharedPrefHelper
 import com.example.simplenoteapp.viewModel.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
@@ -37,6 +39,7 @@ class AddFragment : Fragment() {
     private lateinit var etDesc: EditText
     private lateinit var btnSave: FloatingActionButton
     private lateinit var noteViewModel: NoteViewModel
+    private lateinit var note: Note
 
     private lateinit var returnDashboardInterface: ReturnDashboardInterface
 
@@ -63,33 +66,30 @@ class AddFragment : Fragment() {
         etTitle = view.findViewById(R.id.idETTitle)
         etDesc = view.findViewById(R.id.idETDesc)
         btnSave = view.findViewById(R.id.idFABSave)
-
         returnDashboardInterface = activity as ReturnDashboardInterface
+        SharedPrefHelper.initialize(requireContext())
 
         noteViewModel = ViewModelProvider(this)[NoteViewModel::class.java]
 
-//        val noteType = intent.getStringExtra("noteType")
-
-//        if(noteType.equals("Edit")) {
-//            val noteTitle = intent.getStringExtra("noteTitle")
-//            val noteDescription = intent.getStringExtra("noteDescription")
-//            noteID = intent.getIntExtra("noteID", -1)
-//            etTitle.setText(noteTitle)
-//            etDesc.setText(noteDescription)
-//        }
-
         btnSave.setOnClickListener {
             val title = etTitle.text.toString()
-            val description = etTitle.text.toString()
+            val description = etDesc.text.toString()
             if (title.isEmpty() && description.isEmpty()) {
                 Toast.makeText(requireContext(), "Title and description is required!", Toast.LENGTH_SHORT).show()
             } else {
-                val currentTimeStamp: String = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(
-                    Date()
-                )
-                val note = Note(etTitle.text.toString(), etDesc.text.toString(), currentTimeStamp, "")
-                noteViewModel.addNote(note)
+                if (this.note.title.isNotEmpty()) {
+                    this.note.title = title
+                    this.note.description = description
+                    noteViewModel.updateNote(this.note)
+                } else {
+                    val currentTimeStamp: String = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(Date())
+                    val note = Note(etTitle.text.toString(), etDesc.text.toString(), currentTimeStamp, "")
+                    noteViewModel.addNote(note)
+                }
                 returnDashboardInterface.onDashboardReturn()
+                etTitle.text.clear()
+                etDesc.text.clear()
+                SharedPrefHelper.clearSelectedNote()
             }
         }
 
@@ -103,6 +103,28 @@ class AddFragment : Fragment() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupData()
+    }
+
+    private fun setupData() {
+        note = Note("","","","") //default value for note
+        val selectedNoteId = SharedPrefHelper.getSelectedNote(requireContext())
+        if (selectedNoteId > -1) {
+            noteViewModel.getNote(selectedNoteId).observe(viewLifecycleOwner) {noteObject->
+                if (noteObject != null) {
+                    note = noteObject
+                    etTitle.setText(note.title)
+                    etDesc.setText(note.description)
+                }
+            }
+        } else {
+            etTitle.text.clear()
+            etDesc.text.clear()
+        }
 
     }
 
@@ -125,6 +147,7 @@ class AddFragment : Fragment() {
                 }
             }
     }
+
 }
 
 interface ReturnDashboardInterface {

@@ -14,6 +14,7 @@ import com.example.simplenoteapp.adapter.NoteAdapter
 import com.example.simplenoteapp.adapter.NoteDeleteInterface
 import com.example.simplenoteapp.adapter.NoteOpenInterface
 import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.helpers.SharedPrefHelper
 import com.example.simplenoteapp.viewModel.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -34,6 +35,8 @@ class DashboardFragment : Fragment(), NoteDeleteInterface, NoteOpenInterface {
     lateinit var noteRV: RecyclerView
     lateinit var noteViewModel: NoteViewModel
 
+    private lateinit var noteOpenInterface: NoteOpenInterface
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -53,17 +56,19 @@ class DashboardFragment : Fragment(), NoteDeleteInterface, NoteOpenInterface {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         noteRV = view.findViewById(R.id.idNotesRV)
-
+        noteOpenInterface = activity as NoteOpenInterface
         noteRV.layoutManager = LinearLayoutManager(requireContext())
+
+        SharedPrefHelper.initialize(requireContext())
 
         val noteAdapter = NoteAdapter(this, this, this)
         noteRV.adapter = noteAdapter
         noteViewModel = ViewModelProvider(this)[NoteViewModel::class.java]
-        noteViewModel.allNote.observe(viewLifecycleOwner, { list->
+        noteViewModel.allNote.observe(viewLifecycleOwner) { list ->
             list?.let {
                 noteAdapter.updateList(it)
             }
-        })
+        }
 
     }
 
@@ -93,6 +98,11 @@ class DashboardFragment : Fragment(), NoteDeleteInterface, NoteOpenInterface {
     }
 
     override fun onOpenNote(note: Note) {
-        TODO("Not yet implemented")
+        noteOpenInterface.onOpenNote(note)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SharedPrefHelper.clearSelectedNote()
     }
 }

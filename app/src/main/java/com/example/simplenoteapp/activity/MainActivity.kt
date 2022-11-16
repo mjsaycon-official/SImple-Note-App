@@ -1,18 +1,12 @@
 package com.example.simplenoteapp.activity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.simplenoteapp.R
-import com.example.simplenoteapp.adapter.NoteAdapter
 import com.example.simplenoteapp.adapter.NoteDeleteInterface
 import com.example.simplenoteapp.adapter.NoteOpenInterface
 import com.example.simplenoteapp.databinding.ActivityMainBinding
@@ -21,36 +15,44 @@ import com.example.simplenoteapp.fragment.AboutFragment
 import com.example.simplenoteapp.fragment.AddFragment
 import com.example.simplenoteapp.fragment.DashboardFragment
 import com.example.simplenoteapp.fragment.ReturnDashboardInterface
-import com.example.simplenoteapp.viewModel.NoteViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.simplenoteapp.helpers.SharedPrefHelper
 
 class MainActivity : AppCompatActivity(), NoteDeleteInterface, NoteOpenInterface, ReturnDashboardInterface {
 
     lateinit var binding: ActivityMainBinding
     val TAG = "MainActivity"
 
-    var notes = ArrayList<Note>()
+    lateinit var dashboardFragment: DashboardFragment
+    lateinit var addFragment: AddFragment
+    lateinit var aboutFragment: AboutFragment
+    private var isTapDoubled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        supportActionBar?.hide()
         setContentView(binding.root)
+
+        SharedPrefHelper.initialize(this)
+
+        dashboardFragment = DashboardFragment()
+        addFragment = AddFragment()
+        aboutFragment = AboutFragment()
 
         replaceFragment(DashboardFragment())
 
         binding.bottomNavigationView.setOnItemSelectedListener{
              when(it.itemId) {
                  R.id.dashboard -> {
-                     replaceFragment(DashboardFragment())
-                     Log.i(TAG, "onCreate: DashboardFragment")
+                     addNavLayoutSetup()
+                     replaceFragment(dashboardFragment)
                  }
                  R.id.add -> {
-                     replaceFragment(AddFragment())
-                     Log.i(TAG, "onCreate: AddFragment")
+                     replaceFragment(addFragment)
                  }
                  else ->{
-                     replaceFragment(AboutFragment())
-                     Log.i(TAG, "onCreate: AboutFragment")
+                     addNavLayoutSetup()
+                     replaceFragment(aboutFragment)
                  }
              }
             true
@@ -69,18 +71,36 @@ class MainActivity : AppCompatActivity(), NoteDeleteInterface, NoteOpenInterface
     }
 
     override fun onOpenNote(note: Note) {
-        val intent = Intent(this, AddEditNoteActivity::class.java)
-        intent.putExtra("noteType", "Edit")
-        intent.putExtra("noteTitle", note.title)
-        intent.putExtra("noteDescription", note.description)
-        intent.putExtra("noteTimestamp", note.timestamp)
-        intent.putExtra("noteId", note.id)
-        startActivity(intent)
+        SharedPrefHelper.saveSelectedNote(note.id, this)
+        replaceFragment(addFragment)
+        binding.bottomNavigationView.menu.getItem(1).isChecked = true
+        binding.bottomNavigationView.menu.findItem(R.id.add).setIcon(R.drawable.ic_baseline_change_circle_24)
+        binding.bottomNavigationView.menu.findItem(R.id.add).title = "Update"
     }
 
     override fun onDashboardReturn() {
-        binding.bottomNavigationView.menu.getItem(0).setChecked(true)
+        binding.bottomNavigationView.menu.getItem(0).isChecked = true
+        addNavLayoutSetup()
         replaceFragment(DashboardFragment())
-        Log.i(TAG, "onCreate: DashboardFragment")
+    }
+
+    private fun addNavLayoutSetup() {
+        binding.bottomNavigationView.menu.findItem(R.id.add).setIcon(R.drawable.ic_baseline_add_circle_outline_24)
+        binding.bottomNavigationView.menu.findItem(R.id.add).title = "Add"
+    }
+
+    override fun onBackPressed() {
+        if (isTapDoubled) {
+            super.onBackPressed()
+        }
+        if (!isTapDoubled) Toast.makeText(this,"Double tap to close", Toast.LENGTH_SHORT).show()
+
+        isTapDoubled = true
+        Handler(Looper.getMainLooper()).postDelayed(object : Runnable {
+            override fun run() {
+                isTapDoubled = false
+            }
+        },2000)
+
     }
 }

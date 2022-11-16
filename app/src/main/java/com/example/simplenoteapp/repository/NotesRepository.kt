@@ -19,5 +19,7 @@ class NotesRepository(private val notesDao: NotesDao) {
         notesDao.update(note)
     }
 
-
+    fun get(noteID: Int): LiveData<Note> {
+        return notesDao.getNote(noteID)
+    }
 }

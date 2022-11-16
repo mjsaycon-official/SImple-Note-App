@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">Simple Note App</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="notes_shared_pref">NOTESSHAREDPREF</string>
+    <string name="note_id">NOTEID</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title">Title</string>
     <string name="note_question">What\'s on your mind?</string>
+
+    <string name="about_intro">Hi I\'m MJ Saycon</string>
+    <string name="about_content">\t\t In the world of technology, innovations have always fascinated me.\n\n\t\tEvery year, technology surprises me and keeps me wondering how they make these things. Would I be part of that universe?\n\n\t\tAnd here I am now, a software developer who makes mobile applications and embraces the world of web development.\n\n\t\tTechnology will constantly evolve, and people need to adapt these things to help them, while developers need to innovate more technology.\n\n\t\tAs a developer, it’s a great experience to be part of it with other people who have the same goals but want to solve problems differently.</string>
 </resources>

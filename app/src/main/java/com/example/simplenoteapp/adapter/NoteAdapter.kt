@@ -13,8 +13,8 @@ import com.example.simplenoteapp.fragment.DashboardFragment
 
 class NoteAdapter(
     val context: DashboardFragment,
-    val noteDeleteInterface: NoteDeleteInterface,
-    val noteOpenInterface: NoteOpenInterface) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
+    private val noteDeleteInterface: NoteDeleteInterface,
+    private val noteOpenInterface: NoteOpenInterface) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 
     private val allNotes = ArrayList<Note>()
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -29,15 +29,15 @@ class NoteAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvTitle.setText(allNotes.get(position).title)
-        holder.tvTimestamp.setText(allNotes.get(position).timestamp)
+        holder.tvTitle.text = allNotes[position].title
+        holder.tvTimestamp.text = allNotes[position].timestamp
 
         holder.ivDelete.setOnClickListener {
-            noteDeleteInterface.onDeleteClick(allNotes.get(position))
+            noteDeleteInterface.onDeleteClick(allNotes[position])
         }
 
         holder.itemView.setOnClickListener {
-            noteOpenInterface.onOpenNote(allNotes.get(position))
+            noteOpenInterface.onOpenNote(allNotes[position])
         }
     }
 
