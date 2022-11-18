@@ -1,18 +1,23 @@
 package com.example.simplenoteapp.fragment
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.Context.NOTIFICATION_SERVICE
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.simplenoteapp.R
-import com.example.simplenoteapp.adapter.NoteOpenInterface
 import com.example.simplenoteapp.entity.Note
 import com.example.simplenoteapp.helpers.SharedPrefHelper
 import com.example.simplenoteapp.viewModel.NoteViewModel
@@ -40,10 +45,7 @@ class AddFragment : Fragment() {
     private lateinit var btnSave: FloatingActionButton
     private lateinit var noteViewModel: NoteViewModel
     private lateinit var note: Note
-
     private lateinit var returnDashboardInterface: ReturnDashboardInterface
-
-    var noteID = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +63,11 @@ class AddFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        setupData()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         etTitle = view.findViewById(R.id.idETTitle)
@@ -74,9 +81,11 @@ class AddFragment : Fragment() {
         btnSave.setOnClickListener {
             val title = etTitle.text.toString()
             val description = etDesc.text.toString()
+
             if (title.isEmpty() && description.isEmpty()) {
                 Toast.makeText(requireContext(), "Title and description is required!", Toast.LENGTH_SHORT).show()
             } else {
+                showNotification(title,description)
                 if (this.note.title.isNotEmpty()) {
                     this.note.title = title
                     this.note.description = description
@@ -105,11 +114,6 @@ class AddFragment : Fragment() {
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-        setupData()
-    }
-
     private fun setupData() {
         note = Note("","","","") //default value for note
         val selectedNoteId = SharedPrefHelper.getSelectedNote(requireContext())
@@ -125,7 +129,29 @@ class AddFragment : Fragment() {
             etTitle.text.clear()
             etDesc.text.clear()
         }
+    }
 
+    private fun showNotification(title: String, description: String) {
+        val notificationManager = requireContext().getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val NOTE_CHANNEL_ID = "note_channel_id"
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(NOTE_CHANNEL_ID, "Note Notification", NotificationManager.IMPORTANCE_HIGH)
+            channel.description = description
+            channel.enableLights(false)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notificationBuilder = NotificationCompat.Builder(requireContext(), NOTE_CHANNEL_ID)
+        notificationBuilder.setAutoCancel(true)
+            .setDefaults(Notification.DEFAULT_ALL)
+            .setWhen(System.currentTimeMillis())
+            .setSmallIcon(R.drawable.ic_baseline_event_note_24)
+            .setContentTitle("New Note Added")
+            .setContentText(title)
+            .setContentInfo("Info")
+
+        notificationManager.notify(1, notificationBuilder.build())
     }
 
     companion object {
@@ -146,6 +172,7 @@ class AddFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+
     }
 
 }

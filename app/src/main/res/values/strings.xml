@@ -4,6 +4,8 @@
     <string name="notes_shared_pref">NOTESSHAREDPREF</string>
     <string name="note_id">NOTEID</string>
 
+    <string name="note_channel_name">NOTECHANNEL</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title">Title</string>
     <string name="note_question">What\'s on your mind?</string>

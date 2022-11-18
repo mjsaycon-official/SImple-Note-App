@@ -1,10 +1,13 @@
 package com.example.simplenoteapp.activity
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import com.example.simplenoteapp.R
 import com.example.simplenoteapp.adapter.NoteDeleteInterface
@@ -17,7 +20,7 @@ import com.example.simplenoteapp.fragment.DashboardFragment
 import com.example.simplenoteapp.fragment.ReturnDashboardInterface
 import com.example.simplenoteapp.helpers.SharedPrefHelper
 
-class MainActivity : AppCompatActivity(), NoteDeleteInterface, NoteOpenInterface, ReturnDashboardInterface {
+class MainActivity : AppCompatActivity(), NoteOpenInterface, ReturnDashboardInterface {
 
     lateinit var binding: ActivityMainBinding
     val TAG = "MainActivity"
@@ -64,10 +67,6 @@ class MainActivity : AppCompatActivity(), NoteDeleteInterface, NoteOpenInterface
         val fragmentTransaction = fragmentManger.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
-    }
-
-    override fun onDeleteClick(note: Note) {
-
     }
 
     override fun onOpenNote(note: Note) {
