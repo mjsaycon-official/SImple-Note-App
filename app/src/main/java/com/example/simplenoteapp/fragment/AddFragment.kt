@@ -3,7 +3,6 @@ package com.example.simplenoteapp.fragment
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.os.Build
 import android.os.Bundle
@@ -18,7 +17,7 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.simplenoteapp.R
-import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.data.entity.Note
 import com.example.simplenoteapp.helpers.SharedPrefHelper
 import com.example.simplenoteapp.viewModel.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton

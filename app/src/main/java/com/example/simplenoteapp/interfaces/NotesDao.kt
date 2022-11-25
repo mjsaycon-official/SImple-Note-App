@@ -2,7 +2,7 @@ package com.example.simplenoteapp.interfaces
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.data.entity.Note
 
 @Dao
 interface NotesDao {

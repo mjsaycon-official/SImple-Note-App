@@ -1,7 +1,7 @@
 package com.example.simplenoteapp.repository
 
 import androidx.lifecycle.LiveData
-import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.data.entity.Note
 import com.example.simplenoteapp.interfaces.NotesDao
 
 class NotesRepository(private val notesDao: NotesDao) {

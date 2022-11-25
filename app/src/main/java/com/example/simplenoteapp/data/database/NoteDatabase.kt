@@ -1,10 +1,10 @@
-package com.example.simplenoteapp.data
+package com.example.simplenoteapp.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.data.entity.Note
 import com.example.simplenoteapp.interfaces.NotesDao
 
 @Database(entities = arrayOf(Note::class), version = 1, exportSchema = false)

@@ -13,10 +13,9 @@ import com.example.simplenoteapp.R
 import com.example.simplenoteapp.adapter.NoteAdapter
 import com.example.simplenoteapp.adapter.NoteDeleteInterface
 import com.example.simplenoteapp.adapter.NoteOpenInterface
-import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.data.entity.Note
 import com.example.simplenoteapp.helpers.SharedPrefHelper
 import com.example.simplenoteapp.viewModel.NoteViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

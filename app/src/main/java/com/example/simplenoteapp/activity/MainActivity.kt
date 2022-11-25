@@ -1,19 +1,15 @@
 package com.example.simplenoteapp.activity
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import com.example.simplenoteapp.R
-import com.example.simplenoteapp.adapter.NoteDeleteInterface
 import com.example.simplenoteapp.adapter.NoteOpenInterface
 import com.example.simplenoteapp.databinding.ActivityMainBinding
-import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.data.entity.Note
 import com.example.simplenoteapp.fragment.AboutFragment
 import com.example.simplenoteapp.fragment.AddFragment
 import com.example.simplenoteapp.fragment.DashboardFragment

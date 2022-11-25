@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.simplenoteapp.R
-import com.example.simplenoteapp.entity.Note
+import com.example.simplenoteapp.data.entity.Note
 import com.example.simplenoteapp.fragment.DashboardFragment
 
 class NoteAdapter(
@@ -20,7 +20,6 @@ class NoteAdapter(
             val tvTitle = itemView.findViewById<TextView>(R.id.idTVTitle)
             val tvTimestamp = itemView.findViewById<TextView>(R.id.idTVTimestamp)
             val ivDelete = itemView.findViewById<ImageView>(R.id.idIVDelete)
-
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
